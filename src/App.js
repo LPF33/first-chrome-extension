@@ -1,9 +1,11 @@
+import { useContext } from "react";
+
 import Navigation from "./components/Navigation";
 import Break from "./components/Break";
 import Tracker from "./components/Tracker";
 import SnippetSafer from "./components/SnippetSafer";
 import ColorPicker from "./components/ColorPicker";
-import { useContext } from "react";
+
 import { AppContext } from "./context/AppContext";
 
 function App() {
