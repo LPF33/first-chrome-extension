@@ -116,20 +116,15 @@ function timeCalculation(confMinutes, confHour, currentMinutes, currentHour) {
     return 60 * hours + minutes;
 }
 
-function getTimeOutput(time) {
-    var hours = Math.floor(time / 3600);
-    var minutes = Math.floor((time % 3600) / 60);
-    var seconds = Math.round(time % 60);
+function padTime(val, len = 2) {
+    return val.toString().padStart(len, "0");
+}
 
-    if (hours < 10) {
-        hours = "0" + hours;
-    }
-    if (minutes < 10) {
-        minutes = "0" + minutes;
-    }
-    if (seconds < 10) {
-        seconds = "0" + seconds;
-    }
+function getTimeOutput(time) {
+    var hours = padTime(Math.floor(time / 3600));
+    var minutes = padTime(Math.floor((time % 3600) / 60));
+    var seconds = padTime(Math.round(time % 60));
+
     return hours !== "00"
         ? hours + ":" + minutes + ":" + seconds
         : minutes + ":" + seconds;
