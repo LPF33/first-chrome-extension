@@ -1,0 +1,21 @@
+.color-picker {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    overflow-y: auto;
+}
+
+.color-picker #preview {
+    width: 90px;
+    height: 60px;
+    margin: 10px 0;
+    border: 10px solid white;
+}
+
+.color-picker p {
+    font-size: 1.5rem;
+    letter-spacing: 2px;
+}

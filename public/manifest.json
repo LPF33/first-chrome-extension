@@ -1,9 +1,15 @@
 {
     "name": "Multi Chrome Extension",
     "description": "Build first extension",
-    "version": "1.2",
+    "version": "1.4",
     "manifest_version": 3,
-    "permissions": ["storage", "activeTab", "scripting", "tabs"],
+    "permissions": [
+        "storage",
+        "activeTab",
+        "scripting",
+        "tabs",
+        "contentSettings"
+    ],
     "host_permissions": ["<all_urls>"],
     "action": {
         "default_popup": "popup.html",
@@ -36,11 +42,19 @@
         },
         "save-snippet": {
             "suggested_key": {
-                "default": "Ctrl+Shift+K",
-                "windows": "Ctrl+Shift+K",
-                "mac": "Command+Shift+K"
+                "default": "Ctrl+Shift+3",
+                "windows": "Ctrl+Shift+3",
+                "mac": "Command+Shift+3"
             },
             "description": "Save current selected text."
+        },
+        "pick-color": {
+            "suggested_key": {
+                "default": "Ctrl+Shift+4",
+                "windows": "Ctrl+Shift+4",
+                "mac": "Command+Shift+4"
+            },
+            "description": "Get Color under mouse cursor."
         }
     },
     "icons": {
