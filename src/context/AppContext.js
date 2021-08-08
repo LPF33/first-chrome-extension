@@ -11,28 +11,29 @@ export default function AppContextProvider(props) {
     });
 
     React.useEffect(() => {
-        chrome.runtime.onMessage.addListener(
-            async ({ type, selection, href }, sender, respond) => {
-                if (type === "get-selected-text") {
-                    setSelectedText({ text: selection, href, id: uuid4() });
-                }
+        "runtime" in chrome &&
+            chrome.runtime.onMessage.addListener(
+                async ({ type, selection, href }, sender, respond) => {
+                    if (type === "get-selected-text") {
+                        setSelectedText({ text: selection, href, id: uuid4() });
+                    }
 
-                if (type === "save-selected-text") {
-                    console.log("h", href);
-                    chrome.storage.sync.get(
-                        ["snippets"],
-                        ({ snippets = [] }) => {
-                            snippets.push({
-                                text: selection,
-                                href,
-                                id: uuid4(),
-                            });
-                            chrome.storage.sync.set({ snippets });
-                        }
-                    );
+                    if (type === "save-selected-text") {
+                        console.log("h", href);
+                        chrome.storage.sync.get(
+                            ["snippets"],
+                            ({ snippets = [] }) => {
+                                snippets.push({
+                                    text: selection,
+                                    href,
+                                    id: uuid4(),
+                                });
+                                chrome.storage.sync.set({ snippets });
+                            }
+                        );
+                    }
                 }
-            }
-        );
+            );
     }, []);
 
     return (
