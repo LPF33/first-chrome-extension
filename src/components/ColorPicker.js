@@ -6,15 +6,16 @@ export default function ColorPicker() {
     const [hex, setHex] = useState(null);
 
     useEffect(() => {
-        chrome.storage.sync.get(["rgb"], ({ rgb }) => {
-            setRGBValue(rgb);
-            const { r, g, b } = rgb;
-            setHex(
-                `#${r.toString(16).padStart(2, "0")}${g
-                    .toString(16)
-                    .padStart(2, "0")}${b.toString(16).padStart(2, "0")}`
-            );
-        });
+        "storage" in chrome &&
+            chrome.storage.sync.get(["rgb"], ({ rgb }) => {
+                setRGBValue(rgb);
+                const { r, g, b } = rgb;
+                setHex(
+                    `#${r.toString(16).padStart(2, "0")}${g
+                        .toString(16)
+                        .padStart(2, "0")}${b.toString(16).padStart(2, "0")}`
+                );
+            });
     }, []);
 
     const selectColor = (e) => {
@@ -23,7 +24,6 @@ export default function ColorPicker() {
         document.body.appendChild(textarea);
         textarea.select();
         document.execCommand("copy");
-        console.dir(textarea);
         textarea.remove();
     };
 

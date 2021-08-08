@@ -11,7 +11,7 @@ export default function SnippetSafer() {
     const { selectedText, setSelectedText } = useContext(AppContext);
 
     useEffect(() => {
-        chrome.tabs &&
+        "tabs" in chrome &&
             chrome.tabs.query(queryOptions, (tabs) => {
                 chrome.scripting.executeScript({
                     target: {
@@ -32,7 +32,7 @@ export default function SnippetSafer() {
     }, []);
 
     const safeSnippet = () => {
-        chrome &&
+        "storage" in chrome &&
             chrome.storage.sync.get(["snippets"], ({ snippets = [] }) => {
                 snippets.push({ ...selectedText });
                 chrome.storage.sync.set({ snippets });
@@ -41,20 +41,23 @@ export default function SnippetSafer() {
     };
 
     const showSnippet = () => {
-        chrome.storage.sync.get(["snippets"], async ({ snippets }) => {
-            if (snippets && snippets.length) {
-                let url = chrome.runtime.getURL("assets/snippets_page.html");
-                const tab = await chrome.tabs.create({ url });
-                chrome.runtime.sendMessage({
-                    type: "show-snippets",
-                    tabId: tab.id,
-                });
-            }
-        });
+        "storage" in chrome &&
+            chrome.storage.sync.get(["snippets"], async ({ snippets }) => {
+                if (snippets && snippets.length) {
+                    let url = chrome.runtime.getURL(
+                        "assets/snippets_page.html"
+                    );
+                    const tab = await chrome.tabs.create({ url });
+                    chrome.runtime.sendMessage({
+                        type: "show-snippets",
+                        tabId: tab.id,
+                    });
+                }
+            });
     };
 
     const deleteStorage = () => {
-        chrome.storage.sync.remove(["snippets"]);
+        "storage" in chrome && chrome.storage.sync.remove(["snippets"]);
     };
 
     if (!selectedText.text) {
