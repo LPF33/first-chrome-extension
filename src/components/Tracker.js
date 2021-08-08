@@ -1,9 +1,13 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import "../styles/Tracker.css";
 import { FcStart } from "react-icons/fc";
 import { CgStopwatch } from "react-icons/cg";
+import { AiOutlineBarChart, AiFillCloseCircle } from "react-icons/ai";
+import BarChart from "./BarChart/BarChart.js";
+import { AppContext } from "../context/AppContext";
 
 export default function Tracker() {
+    const [showBar, setShowBar] = useState(false);
     const [trackedTime, setTrackedTime] = useState({
         coding: { start: null },
         sport: { start: null },
@@ -12,14 +16,14 @@ export default function Tracker() {
         ended: false,
     });
 
+    const { trackerTimes } = useContext(AppContext);
+
     useEffect(() => {
-        "storage" in chrome &&
-            chrome.storage.sync.get(["tracker"], async ({ tracker = [] }) => {
-                console.log("before", tracker);
-                if (tracker && tracker.length) {
-                    setTrackedTime(...tracker.filter((item) => !item.ended));
-                }
-            });
+        const filterTrackerTimes = trackerTimes.filter((item) => !item.ended);
+        if (filterTrackerTimes.length) {
+            setTrackedTime(...filterTrackerTimes);
+        }
+        // eslint-disable-next-line
     }, []);
 
     const start = (type) => {
@@ -61,7 +65,6 @@ export default function Tracker() {
                 } else {
                     tracker.push(newTrackedTime);
                 }
-                console.log("store", tracker);
                 await chrome.storage.sync.set({ tracker });
             });
     };
@@ -71,10 +74,28 @@ export default function Tracker() {
         return date.toLocaleDateString();
     };
 
+    if (showBar) {
+        return (
+            <div className="tracker bar">
+                <p>
+                    <span>Coding</span>
+                    <span>Sport</span>
+                </p>
+                <button onClick={() => setShowBar(false)} id="close-button">
+                    <AiFillCloseCircle />
+                </button>
+                <BarChart data={trackerTimes} />
+            </div>
+        );
+    }
+
     return (
         <div className="tracker">
             <h1>Tracker</h1>
             <p>{convertString(trackedTime.date)}</p>
+            <button onClick={() => setShowBar(true)} id="show-bar-button">
+                <AiOutlineBarChart />
+            </button>
             <div>
                 <h3>Coding</h3>
                 {!trackedTime.coding.start && (

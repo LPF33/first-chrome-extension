@@ -1,0 +1,12 @@
+svg g > g:hover rect {
+    fill: rgb(19, 46, 61);
+}
+
+svg .bar-text {
+    display: none;
+    font-weight: bold;
+}
+
+svg g:hover > .bar-text {
+    display: block;
+}

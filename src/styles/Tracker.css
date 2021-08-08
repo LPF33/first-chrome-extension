@@ -1,16 +1,37 @@
 .tracker {
+    position: relative;
     width: 100%;
+    max-width: 300px;
     height: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    overflow-x: auto;
+}
+
+.tracker.bar {
+    justify-content: space-around;
+    align-items: flex-start;
 }
 
 .tracker > div {
     display: flex;
     align-items: center;
     margin-top: 10px;
+}
+
+.tracker p > span {
+    margin-left: 10px;
+    padding: 2px;
+}
+
+.tracker p > span:first-child {
+    background-color: blue;
+}
+
+.tracker p > span:nth-child(2) {
+    background-color: green;
 }
 
 .tracker button {
@@ -36,4 +57,25 @@
 
 .tracker .stop-button:hover {
     background-color: red;
+}
+
+.tracker #show-bar-button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    border: 5px solid white;
+    color: rgb(108, 75, 255);
+}
+
+.tracker #close-button {
+    position: absolute;
+    top: 2px;
+    right: 2px;
+    font-size: 1rem;
+    color: white;
+    padding: 3px;
+}
+
+.tracker #close-button:hover {
+    background-color: #508d7e;
 }
