@@ -19,16 +19,11 @@ export default function SnippetSafer() {
                     },
                     function: function () {
                         const selection = `${window.getSelection()}`;
-                        chrome.runtime.sendMessage(
-                            {
-                                type: "get-selected-text",
-                                selection: selection.trim(),
-                                href: window.location.href,
-                            },
-                            () => {
-                                console.log(selection);
-                            }
-                        );
+                        chrome.runtime.sendMessage({
+                            type: "get-selected-text",
+                            selection: selection.trim(),
+                            href: window.location.href,
+                        });
                     },
                 });
             });
