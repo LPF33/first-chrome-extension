@@ -7,6 +7,7 @@ export default function Bar({ x, y, width, height, hours, fill = "black" }) {
             <text
                 x={x}
                 y={y}
+                dx="1.2em"
                 dy=".35em"
                 fill="white"
                 transform={`rotate(90,${x + width / 2},${y})`}

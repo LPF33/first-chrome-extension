@@ -35,6 +35,10 @@ nav button {
     cursor: pointer;
 }
 
+nav button:hover {
+    color: white;
+}
+
 main {
     flex-grow: 1;
     color: white;

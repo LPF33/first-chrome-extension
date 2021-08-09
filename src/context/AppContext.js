@@ -62,7 +62,6 @@ export default function AppContextProvider(props) {
                         return item;
                     });
                 }
-                console.log("e", tracker);
                 setTrackerTimes(tracker);
             });
     }, []);

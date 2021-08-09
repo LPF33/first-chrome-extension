@@ -19,14 +19,13 @@ export default function BarChart({ data }) {
     const marginLeft = 20;
     const barWidth = 20;
     const barMargin = 2;
-    const width = data.length * (barWidth + barMargin);
+    const width = data.length * (barWidth + barMargin) + marginLeft;
     const height = 190;
     const heightPerHour =
         height /
         heighestTime(
             data.map((item) => Math.max(item.times.coding, item.times.sport))
         );
-
     return (
         <Chart width={width} height={height} class="barchart">
             <XAxis
