@@ -10,3 +10,7 @@ svg .bar-text {
 svg g:hover > .bar-text {
     display: block;
 }
+
+svg .single-bar:hover ~ g {
+    display: none;
+}

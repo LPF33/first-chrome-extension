@@ -80,3 +80,26 @@ export default function AppContextProvider(props) {
         </AppContext.Provider>
     );
 }
+
+// [
+//     {
+//         times: { coding: 9900000, sport: 102849343 },
+//         date: "Mon Aug 08 2021 01:19:09 GMT+0200 (Mitteleuropäische Sommerzeit)",
+//         ended: true,
+//     },
+//     {
+//         times: { coding: 92849343, sport: 23000000 },
+//         date: "Mon Aug 07 2021 01:19:09 GMT+0200 (Mitteleuropäische Sommerzeit)",
+//         ended: true,
+//     },
+//     {
+//         times: { coding: 72849343, sport: 62849343 },
+//         date: "Mon Aug 06 2021 01:19:09 GMT+0200 (Mitteleuropäische Sommerzeit)",
+//         ended: true,
+//     },
+//     {
+//         times: { coding: 112849343, sport: 23000000 },
+//         date: "Mon Aug 05 2021 01:19:09 GMT+0200 (Mitteleuropäische Sommerzeit)",
+//         ended: true,
+//     },
+// ]

@@ -2,7 +2,7 @@ import React from "react";
 
 export default function Bar({ x, y, width, height, hours, fill = "black" }) {
     return (
-        <g>
+        <g class="single-bar">
             <rect x={x} y={y} width={width} height={height} fill={fill}></rect>
             <text
                 x={x}

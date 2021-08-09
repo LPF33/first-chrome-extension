@@ -6,7 +6,7 @@ import YAxis from "./YAxis";
 import { v4 as uuid } from "uuid";
 import "../../styles/BarChart.css";
 
-const heighestTime = (times) =>
+const heighestTimeFunc = (times) =>
     milliSecondsToHours(
         times.reduce((acc, cur) => (acc > cur ? acc : cur), -Infinity)
     );
@@ -21,11 +21,11 @@ export default function BarChart({ data }) {
     const barMargin = 2;
     const width = data.length * (barWidth + barMargin) + marginLeft;
     const height = 190;
-    const heightPerHour =
-        height /
-        heighestTime(
-            data.map((item) => Math.max(item.times.coding, item.times.sport))
-        );
+    const heighestTime = heighestTimeFunc(
+        data.map((item) => Math.max(item.times.coding, item.times.sport))
+    );
+    const heightPerHour = height / heighestTime;
+
     return (
         <Chart width={width} height={height} class="barchart">
             <XAxis
@@ -41,29 +41,32 @@ export default function BarChart({ data }) {
                 y2={height}
                 height={height}
                 interval={heightPerHour}
+                heighestTime={heighestTime}
             />
             {data.map((item, index) => {
                 const sportHours = milliSecondsToHours(item.times.sport);
                 const codingHours = milliSecondsToHours(item.times.coding);
+                const max = Math.max(sportHours, codingHours);
+                const min = Math.min(sportHours, codingHours);
                 return (
                     <g key={uuid()}>
                         <Bar
                             key={uuid()}
                             x={marginLeft + 5 + index * (barWidth + barMargin)}
-                            y={height - codingHours * heightPerHour - 5}
+                            y={height - max * heightPerHour - 5}
                             width={barWidth}
-                            height={codingHours * heightPerHour}
-                            hours={codingHours}
-                            fill="blue"
+                            height={max * heightPerHour}
+                            hours={max}
+                            fill={codingHours > sportHours ? "blue" : "green"}
                         />
                         <Bar
                             key={uuid()}
                             x={marginLeft + 5 + index * (barWidth + barMargin)}
-                            y={height - sportHours * heightPerHour - 5}
+                            y={height - min * heightPerHour - 5}
                             width={barWidth}
-                            height={sportHours * heightPerHour}
-                            hours={sportHours}
-                            fill="green"
+                            height={min * heightPerHour}
+                            hours={min}
+                            fill={codingHours > sportHours ? "green" : "blue"}
                         />
                     </g>
                 );

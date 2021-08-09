@@ -1,7 +1,16 @@
 import React from "react";
 
-export default function YAxis({ x1, x2, y1, y2, interval, height }) {
-    const yInterval = Math.round(height / (interval * 2));
+export default function YAxis({
+    x1,
+    x2,
+    y1,
+    y2,
+    interval,
+    height,
+    heighestTime,
+}) {
+    const yAxisProperties = Math.ceil(heighestTime / 5);
+    const yInterval = Math.ceil(height / (interval * yAxisProperties));
 
     return (
         <g>
@@ -17,11 +26,12 @@ export default function YAxis({ x1, x2, y1, y2, interval, height }) {
                 return (
                     <text
                         x={16}
-                        y={height - interval * 2 * index}
+                        y={height - interval * yAxisProperties * index}
                         fill="white"
                         text-anchor="end"
+                        key={index}
                     >
-                        {index * 2}
+                        {index * yAxisProperties}
                     </text>
                 );
             })}
