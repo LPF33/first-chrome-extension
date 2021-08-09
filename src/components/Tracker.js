@@ -93,9 +93,11 @@ export default function Tracker() {
         <div className="tracker">
             <h1>Tracker</h1>
             <p>{convertString(trackedTime.date)}</p>
-            <button onClick={() => setShowBar(true)} id="show-bar-button">
-                <AiOutlineBarChart />
-            </button>
+            {trackerTimes.length && (
+                <button onClick={() => setShowBar(true)} id="show-bar-button">
+                    <AiOutlineBarChart />
+                </button>
+            )}
             <div>
                 <h3>Coding</h3>
                 {!trackedTime.coding.start && (
