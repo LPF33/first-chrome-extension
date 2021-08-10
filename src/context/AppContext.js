@@ -46,7 +46,8 @@ export default function AppContextProvider(props) {
 
                     tracker = tracker.map((item) => {
                         if (!item.ended) {
-                            const itemDate = new Date(item.date);
+                            const itemCopy = { ...item };
+                            const itemDate = new Date(itemCopy.date);
                             const [itemMonth, itemDay] = [
                                 itemDate.getMonth(),
                                 itemDate.getDate(),
@@ -55,14 +56,24 @@ export default function AppContextProvider(props) {
                                 itemMonth !== month ||
                                 (itemMonth === month && itemDay !== day)
                             ) {
-                                item.ended = true;
+                                itemCopy.ended = true;
                             }
+                            return itemCopy;
                         }
 
                         return item;
                     });
                 }
                 setTrackerTimes(tracker);
+                await chrome.storage.sync.set({ tracker });
+            });
+
+        "storage" in chrome &&
+            chrome.storage.onChanged.addListener(function (changes) {
+                const [[key, { newValue }]] = Object.entries(changes);
+                if (key === "tracker") {
+                    setTrackerTimes(newValue);
+                }
             });
     }, []);
 
@@ -82,11 +93,11 @@ export default function AppContextProvider(props) {
 }
 
 // [
-//     {
-//         times: { coding: 9900000, sport: 102849343 },
-//         date: "Mon Aug 08 2021 01:19:09 GMT+0200 (Mitteleuropäische Sommerzeit)",
-//         ended: true,
-//     },
+// {
+//     times: { coding: 27360000, sport: 2880000 },
+//     date: "Mon Aug 08 2021 01:19:09 GMT+0200 (Mitteleuropäische Sommerzeit)",
+//     ended: false,
+// },
 //     {
 //         times: { coding: 92849343, sport: 23000000 },
 //         date: "Mon Aug 07 2021 01:19:09 GMT+0200 (Mitteleuropäische Sommerzeit)",

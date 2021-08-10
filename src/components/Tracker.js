@@ -57,7 +57,7 @@ export default function Tracker() {
                 if (tracker && tracker.length) {
                     tracker = tracker.map((item) => {
                         if (!item.ended) {
-                            item = newTrackedTime;
+                            return newTrackedTime;
                         }
 
                         return item;
@@ -93,7 +93,7 @@ export default function Tracker() {
         <div className="tracker">
             <h1>Tracker</h1>
             <p>{convertString(trackedTime.date)}</p>
-            {trackerTimes.length && (
+            {trackerTimes.length > 0 && (
                 <button onClick={() => setShowBar(true)} id="show-bar-button">
                     <AiOutlineBarChart />
                 </button>
