@@ -55,16 +55,9 @@ export default function Tracker() {
         "storage" in chrome &&
             chrome.storage.sync.get(["tracker"], async ({ tracker = [] }) => {
                 if (tracker && tracker.length) {
-                    tracker = tracker.map((item) => {
-                        if (!item.ended) {
-                            return newTrackedTime;
-                        }
-
-                        return item;
-                    });
-                } else {
-                    tracker.push(newTrackedTime);
+                    tracker = tracker.filter((item) => item.ended);
                 }
+                tracker.push(newTrackedTime);
                 await chrome.storage.sync.set({ tracker });
             });
     };
