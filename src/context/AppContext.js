@@ -38,31 +38,7 @@ export default function AppContextProvider(props) {
         "storage" in chrome &&
             chrome.storage.sync.get(["tracker"], async ({ tracker = [] }) => {
                 if (tracker.length) {
-                    const currentDate = new Date();
-                    const [month, day] = [
-                        currentDate.getMonth(),
-                        currentDate.getDate(),
-                    ];
-
-                    tracker = tracker.map((item) => {
-                        if (!item.ended) {
-                            const itemCopy = { ...item };
-                            const itemDate = new Date(itemCopy.date);
-                            const [itemMonth, itemDay] = [
-                                itemDate.getMonth(),
-                                itemDate.getDate(),
-                            ];
-                            if (
-                                itemMonth !== month ||
-                                (itemMonth === month && itemDay !== day)
-                            ) {
-                                itemCopy.ended = true;
-                            }
-                            return itemCopy;
-                        }
-
-                        return item;
-                    });
+                    tracker = tracker.map(endTrackerCheckStoppedTimes);
                 }
                 setTrackerTimes(tracker);
                 await chrome.storage.sync.set({ tracker });
@@ -90,6 +66,36 @@ export default function AppContextProvider(props) {
             {props.children}
         </AppContext.Provider>
     );
+}
+
+function endTrackerCheckStoppedTimes(obj) {
+    if (!obj.ended) {
+        const currentDate = new Date();
+        const [month, day] = [currentDate.getMonth(), currentDate.getDate()];
+        const itemCopy = { ...obj };
+        const itemDate = new Date(itemCopy.date);
+        const [itemMonth, itemDay] = [itemDate.getMonth(), itemDate.getDate()];
+        if (itemMonth !== month || (itemMonth === month && itemDay !== day)) {
+            itemCopy.ended = true;
+
+            if (itemCopy?.coding?.start) {
+                let difference = Date.now() - itemCopy.coding.start;
+                difference += itemCopy.times.coding;
+                itemCopy.times.coding =
+                    difference > 21600000 ? 21600000 : difference;
+            }
+
+            if (itemCopy?.sport?.start) {
+                let difference = Date.now() - itemCopy.sport.start;
+                difference += itemCopy.times.sport;
+                itemCopy.times.sport =
+                    difference > 3600000 ? 3600000 : difference;
+            }
+        }
+        return itemCopy;
+    }
+
+    return obj;
 }
 
 // [
