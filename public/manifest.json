@@ -1,7 +1,7 @@
 {
     "name": "Multi Chrome Extension",
     "description": "Build first extension",
-    "version": "1.4",
+    "version": "1.5",
     "manifest_version": 3,
     "permissions": [
         "storage",
@@ -21,13 +21,6 @@
             "192": "/assets/icon.gif"
         }
     },
-    "content_scripts": [
-        {
-            "matches": ["<all_urls>"],
-            "all_frames": true,
-            "js": ["content.js"]
-        }
-    ],
     "background": {
         "service_worker": "background.js"
     },
